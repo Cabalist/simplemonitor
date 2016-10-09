@@ -473,8 +473,6 @@ class MonitorCommand(Monitor):
             self.result_regexp = re.compile(self.result_regexp_text)
         elif 'result_max' in config_options:
             self.result_max = int(config_options["result_max"])
-        # else:
-        #    raise RuntimeError("Required configuration fields missing")
 
         try:
             command = config_options["command"].split(" ")
@@ -519,8 +517,7 @@ class MonitorCommand(Monitor):
         elif self.result_max is not None:
             return "checking command \"%s\" returns a value < %d" % (" ".join(self.command), self.result_max)
         else:
-            return "checking command \"%s\" failed" % " ".join(self.command)
+            return "checking command \"%s\" has return status 0" % " ".join(self.command)
 
     def get_params(self):
-        # return (self.command, self.result_regexp_text)
-        return (self.command, )
+        return (self.command, self.result_regexp_text, self.result_max)
